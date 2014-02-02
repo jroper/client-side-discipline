@@ -1,0 +1,200 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=1024" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title>Reclaiming discipline in client side web development</title>
+    <meta name="description" content="We all know the history of JavaScript and the browser - originally JavaScript was just snippets of code here and there to do pretty little effects. The modern web application though often has more code in the client side than the backend, code that implements business logic, and code that can often be the most complex part of the system. Yet solid engineering disciplines such as separation of concerns, dependency management, code reuse and unit testing are applied to JavaScript code in enterprise projects in an ad-hoc fashion - as nice to haves, not as givens that you must have at the start of a project. This presentation will show how Play Framework will, out of the box, get you started with writing well engineered rich client web applications, allowing you to apply the same engineering practices as givens as you apply to your backend code." />
+    <meta name="author" content="James Roper" />
+
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:regular,semibold,italic,italicsemibold|PT+Sans:400,700,400italic,700italic|PT+Serif:400,700,400italic,700italic" rel="stylesheet" />
+
+    <link href="css/main.css" rel="stylesheet" />
+    
+    <link rel="shortcut icon" href="favicon.png" />
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+    <script src="prettify/run_prettify.js"></script>
+</head>
+
+<body class="impress-not-supported">
+
+<div id="impress">
+
+    <div id="dependency-management" class="step" data-x="-3000" data-y="0">
+        <img src="images/java-dep-manage.png" class="full"/>
+    </div>
+    
+    <div class="step" data-x="-1500" data-y="0">
+        <img src="images/js-dep-manage.png" class="full"/>
+    </div>
+
+    <div id="webjars" class="step slide" data-x="0" data-y="0">
+        <h2>Dependency management</h2>
+        <img src="images/webjars.png"/>
+    </div>
+
+    <div class="step" data-x="1500" data-y="0" data-z="-3000">
+        <img src="images/webjars-list.png" class="full"/>
+    </div>
+
+    <div class="step slide" data-x="1500" data-y="1000" data-z="-3000">
+        <h2>Dependency management</h2>
+        <pre class="prettyprint"><code class="language-scala">libraryDependencies ++= Seq(
+  "org.webjars" % "bootstrap" % "3.1.0",
+  "org.webjars" % "knockout" % "3.0.0",
+  "org.webjars" % "leaflet" % "0.7.1"
+)</code></pre>
+    </div>
+    
+    <div class="step slide" data-x="1500" data-y="2000" data-z="-3000">
+        <h2>Dependency management</h2>
+        <pre class="prettyprint"><code class="language-html">&lt;script type="text/javascript" 
+  src="@routes.WebJarAssets.at(
+    WebJarAssets.locate("js/bootstrap.min.js")
+  )"&gt;&lt;/script&gt;</code></pre>
+    </div>
+
+    <div class="step slide" data-x="1500" data-y="3000" data-z="-3000">
+        <h2>Dependency management</h2>
+        <pre class="prettyprint"><code class="language-html">&lt;link rel="stylesheet" media="screen"
+  href="@routes.WebJarAssets.at(
+    WebJarAssets.locate("css/bootstrap.min.css")
+  )"/&gt;</code></pre>
+    </div>
+
+    <div id="dependency-injection" class="step" data-x="-1500" data-y="1500" data-rotate="90">
+        <img src="images/java-dep-inj.png" class="full"/>
+    </div>
+
+    <div class="step" data-x="-1500" data-y="3000" data-rotate="90">
+        <img src="images/js-dep-inj.png" class="full"/>
+    </div>
+    
+    <div id="requirejs" class="step slide" data-x="-1500" data-y="4500" data-rotate="90">
+        <h2>Dependency injection</h2>
+        <img src="images/requirejs.png" width="400"/>
+    </div>
+
+    <div class="step slide" data-x="-1500" data-y="6000" data-rotate="90" data-z="-3000">
+        <h2>Dependency injection</h2>
+        <pre class="prettyprint"><code class="language-js">define(function() {
+  return {
+    name: "duck",
+    speak: function() {
+      console.log("quack quack");
+    }
+  };
+});</code></pre>
+    </div>
+    
+    <div class="step slide" data-x="-2500" data-y="6000" data-rotate="90" data-z="-3000">
+        <h2>Dependency injection</h2>
+        <pre class="prettyprint"><code class="language-js">require(["duck"], function(duck) {
+  console.log("What does a " + duck.name + " do?");
+  duck.speak();
+});</code></pre>
+    </div>
+    
+    <div class="step slide" data-x="-3500" data-y="6000" data-rotate="90" data-z="-3000">
+        <h2>Dependency injection</h2>
+        <pre class="prettyprint"><code class="language-js">define(["duck", "pig"], function(duck, pig) {
+  return {
+    names: [duck.name, pig.name],
+    commotion: function() {
+      duck.speak();
+      pig.speak();
+    }
+  };
+});</code></pre>
+    </div>
+    
+    <div class="step slide" data-x="-4500" data-y="6000" data-rotate="90" data-z="-3000">
+        <h2>Dependency injection</h2>
+        <pre class="prettyprint"><code class="language-js">require.config({
+  paths: {
+    farm: "./farm",
+    duck: "./animals/duck",
+    pig: "./animals/pig"
+  }
+});
+require(["farm"], function(farm) {
+  farm.commotion();
+});</code></pre>
+    </div>
+        
+    <div class="step slide" data-x="-5500" data-y="6000" data-rotate="90" data-z="-3000">
+        <h2>Dependency injection</h2>
+        <pre class="prettyprint"><code class="language-html">&lt;script type="text/javascript" 
+  src="@routes.WebJarAssets.at(
+    WebJarAssets.locate("require.js")
+  )"
+  data-main="@routes.Assets.at("main.js")"&gt;&lt;/script&gt;</code></pre>
+    </div>
+    
+    <div class="step slide" data-x="-6500" data-y="6000" data-rotate="90" data-z="-3000">
+        <h2>Dependency injection</h2>
+        <pre class="prettyprint"><code class="language-js">require.config({
+  paths: {
+    map: "./models/map"
+  },
+  map: {
+    "*": {
+      leaflet: "webjars!leaflet.js"
+    }
+  }
+});
+require(["map"], function(map) {
+  map.init();
+});</code></pre>
+    </div>
+    
+    <div class="step slide" data-x="-7500" data-y="6000" data-rotate="90" data-z="-3000">
+        <h2>Dependency injection</h2>
+        <pre class="prettyprint"><code class="language-html">&lt;script type="text/javascript" 
+  src="@routes.WebJarAssets.requirejs"
+  data-main="@routes.Assets.at("main.js")"&gt;&lt;/script&gt;</code></pre>
+    </div>
+
+    <div id="seperation-concerns" class="step" data-x="-7500" data-y="4000" data-rotate="180">
+        <img src="images/java-sep-concerns.png" class="full"/>
+    </div>
+
+    <div class="step" data-x="-9000" data-y="4000" data-rotate="180">
+        <img src="images/js-sep-concerns.png" class="full"/>
+    </div>
+    
+    <div class="step slide" data-x="-10500" data-y="4000" data-rotate="180">
+        <h2>Separation of concerns</h2>
+        <q>Makes code easier to <strong>comprehend</strong> and <strong>test</strong></q>
+    </div>
+
+    <div class="step slide" data-x="-12000" data-y="4000" data-rotate="180" data-z="-3000">
+        <h2>What to separate</h2>
+        <q>AJAX - with <strong>promises</strong></q>
+    </div>
+
+    <div class="step slide" data-x="-12000" data-y="3000" data-rotate="180" data-z="-3000">
+        <h2>What to separate</h2>
+        <q>DOM manipulation, using <strong>templates</strong>, a <strong>framework</strong> or with <strong>manual encapsulation</strong></q>
+    </div>
+
+    <div class="step slide" data-x="-12000" data-y="2000" data-rotate="180" data-z="-3000">
+        <h2>What to separate</h2>
+        <q>Browser APIs, such as <strong>history</strong>, <strong>storage</strong>, <strong>WebSockets</strong>, <strong>EventSource</strong></q>
+    </div>
+
+    <div class="step slide" data-x="-12000" data-y="1000" data-rotate="180" data-z="-3000">
+        <h2>What to separate</h2>
+        <q>... plus anything else that would otherwise be mixing concerns</q>
+    </div>
+
+</div>
+
+<script src="js/impress.js"></script>
+<script>impress().init();</script>
+
+</body>
+</html>
+
