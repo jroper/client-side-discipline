@@ -190,6 +190,140 @@ require(["map"], function(map) {
         <q>... plus anything else that would otherwise be mixing concerns</q>
     </div>
 
+    <div id="testing" class="step" data-x="-10000" data-y="1000" data-rotate="270">
+        <img src="images/java-testing.png" class="full"/>
+    </div>
+
+    <div class="step" data-x="-10000" data-y="-500" data-rotate="270">
+        <img src="images/js-testing.png" class="full"/>
+    </div>
+    
+    <div class="step slide" data-x="-10000" data-y="-2000" data-rotate="270">
+        <h2>Testing</h2>
+        <div class="mocha-logo">
+            <div id="mocha">mocha</div>
+            <div id="mocha-motto">simple, flexible, fun</div>
+        </div>
+    </div>
+    
+    <div class="step slide" data-x="-10000" data-y="-3500" data-rotate="270" data-z="-3000">
+        <h2>Mocha testing</h2>
+        <pre class="prettyprint"><code class="language-js">var assert = require("assert");
+describe("Adder", function() {
+  describe("#addFour", function() {
+    it("should add 4", function() {
+      assert.equal(5, addFour(1));
+    });
+  });
+});</code></pre>
+    </div>
+
+    <div class="step slide" data-x="-9000" data-y="-3500" data-rotate="270" data-z="-3000">
+        <h2>Mocha testing</h2>
+        <pre class="prettyprint"><code class="language-js">var assert = require("assert");
+var requirejs = require("requirejs");
+describe("Adder", function() {
+  var adder = requirejs("./adder");
+  describe("#addFour", function() {
+    it("should add 4", function() {
+      assert.equal(5, adder.addFour(1));
+    });
+  });
+});</code></pre>
+    </div>
+
+    <div class="step slide" data-x="-9000" data-y="-5500" data-rotate="180">
+        <h2>Mocha testing</h2>
+        <q>But what about mocking?</q>
+    </div> 
+ 
+    <div id="squirejs" class="step slide" data-x="-7500" data-y="-5500" data-rotate="180">
+        <img src="images/squirejs.png" height="650"/>
+    </div> 
+
+    <div class="step slide" data-x="-6000" data-y="-5500" data-rotate="180" data-z="-3000">
+        <h2>Mocking</h2>
+        <pre class="prettyprint"><code class="language-js">var assert = require("assert");
+var requirejs = require("requirejs");
+var Squire = requirejs("./squire");
+describe("Adder", function() {
+  describe("#addFour", function() {
+    it("should add 4", function() {
+      var injector = new Squire();
+      injector.require(["./adder"], function(adder) {
+        assert.equal(5, adder.addFour(1));
+      });
+    });
+  });
+});</code></pre>
+    </div>
+    
+    <div class="step slide" data-x="-6000" data-y="-6500" data-rotate="180" data-z="-3000">
+        <h2>Mocking</h2>
+        <pre class="prettyprint"><code class="language-js">describe("Adder", function() {
+  describe("#addFour", function() {
+    it("should add 4", function(done) {
+      var injector = new Squire();
+      injector.require(["./adder"], function(adder) {
+        assert.equal(5, adder.addFour(1));
+        done();
+      });
+    });
+  });
+});</code></pre>
+    </div>
+
+    <div class="step slide" data-x="-6000" data-y="-7500" data-rotate="180" data-z="-3000">
+        <h2>Mocking</h2>
+        <pre class="prettyprint"><code class="language-js">var MockAnimal = function(name) {
+  this.name = name;
+  this.spoken = 0;
+  self = this;
+  this.speak = function() {
+    self.spoken += 1;
+  }
+};</code></pre>
+    </div>
+    
+    <div class="step slide" data-x="-6000" data-y="-8500" data-rotate="180" data-z="-3000">
+        <h2>Mocking</h2>
+        <pre class="prettyprint"><code class="language-js">it("should return all names", function(done) {
+  var injector = new Squire();
+  injector.mock("duck", new MockAnimal("Mock duck"));
+  injector.mock("pig", new MockAnimal("Mock pig"));
+  injector.require(["./farm"], function(farm) {
+    assert.deepEqual(["Mock duck", "Mock pig"],
+        farm.names);
+    done();
+  });
+});</code></pre>
+    </div>
+    
+    <div class="step slide" data-x="-6000" data-y="-9500" data-rotate="180" data-z="-3000">
+        <h2>Mocking</h2>
+        <pre class="prettyprint"><code class="language-js">it("should cause a commotion", function(done) {
+  var injector = new Squire();
+  var duck = new MockAnimal("Mock duck");
+  var pig = new MockAnimal("Mock pig");
+  injector.mock("duck", duck);
+  injector.mock("pig", pig);
+  injector.require(["./farm"], function(farm) {
+    farm.commotion();
+    assert.equal(1, duck.spoken);
+    assert.equal(2, pig.spoken);
+    done();
+  });
+});</code></pre>
+    </div>
+    
+    <div class="step" data-x="-4000" data-y="-9500" data-rotate="270">
+        <img src="images/danger.jpg" />
+    </div>
+
+    <div class="step" data-x="0" data-y="0" data-scale="20">
+    </div> 
+        
+
 </div>
 
 <script src="js/impress.js"></script>
