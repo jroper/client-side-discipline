@@ -55,24 +55,11 @@ b, strong { font-weight: bold }
 i, em { font-style: italic }
 
 a {
-    color: inherit;
     text-decoration: none;
-    padding: 0 0.1em;
-    background: rgba(255,255,255,0.5);
-    text-shadow: -1px -1px 2px rgba(100,100,100,0.9);
-    border-radius: 0.2em;
-
-    -webkit-transition: 0.5s;
-    -moz-transition:    0.5s;
-    -ms-transition:     0.5s;
-    -o-transition:      0.5s;
-    transition:         0.5s;
 }
 
-a:hover,
-a:focus {
-    background: rgba(255,255,255,1);
-    text-shadow: -1px -1px 2px rgba(100,100,100,0.5);
+a:visited {
+    color: inherit;
 }
 
 .step {
@@ -104,6 +91,8 @@ a:focus {
 }
 
 .impress-enabled .step.active { opacity: 1 }
+
+#map .step.active ~ .step { opacity: 1 }
 
 .step .full {
     width: 900px;
@@ -166,6 +155,38 @@ a:focus {
     white-space: nowrap;
 }
 
+#title, #conclusion {
+    text-align: center;
+    line-height: 1.2;
+}
+
+#title h1 {
+    margin-top: 50px;
+    font-size: 60px;
+    font-weight: bold;
+}
+
+#title .me {
+    margin-top: 200px;
+    font-size: 40px;
+}
+
+.twitter {
+    margin-top: 20px;
+    font-size: 40px;
+    font-family: monospace;
+}
+
+#conclusion .link {
+    margin-top: 300px;
+    margin-bottom: 50px;
+    font-size: 30px;
+}
+
+#title .typesafe img {
+    height: 60px;
+}
+
 .mocha-logo {
   font-family: "Helvetica Neue";
   font-weight: 100;
@@ -206,3 +227,13 @@ a:focus {
   opacity: 1;
   margin-left: 60px;
 } 
+
+.blackOut {
+  position: fixed;
+  display: none;
+  background-color: black;
+  z-index: 1000;
+  height: 100%;
+  width: 100%;
+}
+

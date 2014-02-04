@@ -20,7 +20,34 @@
 
 <body class="impress-not-supported">
 
+<div class="blackOut"></div>
+
 <div id="impress">
+
+    <div id="title" class="step slide" data-x="-4500" data-y="3000" data-rotate="180">
+      <h1>Reclaiming discipline in client side web development</h1>
+      <div class="me">James Roper</div>
+      <div class="twitter">@jroper</div>
+      <div class="typesafe"><img src="images/typesafe.png"/></div>
+    </div>
+
+    <div id="map">
+        <div class="step" data-x="-4500" data-y="2000" data-rotate="180">
+        </div>
+    
+        <div class="step" data-x="-4500" data-y="2000">
+            <img src="images/map.jpg" class="full"/>
+        </div>
+    </div>
+    
+    <div class="step" data-x="-4500" data-y="1000">
+        <img src="images/office.jpg" class="full"/>
+    </div>
+    
+    <div id="outline" class="step slide" data-x="-4500" data-y="0">
+        <h2>Outline</h2>
+        <img src="images/outline.jpg" height="500px"/>
+    </div>
 
     <div id="dependency-management" class="step" data-x="-3000" data-y="0">
         <img src="images/java-dep-manage.png" class="full"/>
@@ -310,24 +337,77 @@ describe("Adder", function() {
   injector.require(["./farm"], function(farm) {
     farm.commotion();
     assert.equal(1, duck.spoken);
-    assert.equal(2, pig.spoken);
+    assert.equal(1, pig.spoken);
     done();
   });
 });</code></pre>
     </div>
     
-    <div class="step" data-x="-4000" data-y="-9500" data-rotate="270">
+    <div class="step" data-x="-3500" data-y="-9500" data-rotate="270">
         <img src="images/danger.jpg" />
     </div>
+    
+    <div class="step slide" data-x="-3500" data-y="-11000" data-rotate="270">
+        <h2>Danger!</h2>
+        <q>The "but these are <strong>only tests</strong>" anti-pattern</q>
+    </div> 
+    
+    <div class="step slide" data-x="-3500" data-y="-12500" data-rotate="270" data-z="-3000">
+        <h2>DRY</h2>
+        <pre class="prettyprint"><code class="language-js">function withFarm(test) {
+  return function(done) {
+    var injector = new Squire();
+    var duck = new MockAnimal("Mock duck");
+    var pig = new MockAnimal("Mock pig");
+    injector.mock("duck", duck);
+    injector.mock("pig", pig);
+    injector.require(["./farm"], function(farm) {
+      test(farm, duck, pig);
+      done();
+    });
+  };
+});</code></pre>
+    </div>
+    
+    <div class="step slide" data-x="-2500" data-y="-12500" data-rotate="270" data-z="-3000">
+        <h2>DRY</h2>
+        <pre class="prettyprint"><code class="language-js">it("should return all names", withFarm(farm) {
+  assert.deepEqual(["Mock duck", "Mock pig"],
+      farm.names);
+});
+it("should cause a commotion",
+    withFarm(farm, duck, pig) {
+  farm.commotion();
+  assert.equal(1, duck.spoken);
+  assert.equal(1, pig.spoken);
+});</code></pre>
+    </div>
 
-    <div class="step" data-x="0" data-y="0" data-scale="20">
+    <div id="conclusion" class="step slide" data-x="-4500" data-y="-1000">
+        <h2>Thankyou</h2>
+        <div class="link"><a href="https://github.com/jroper/ReactiveMaps/tree/js-testing">https://github.com/jroper/ReactiveMaps/tree/js-testing</a></div>
+        <div class="twitter">@jroper</div>
     </div> 
         
 
 </div>
 
 <script src="js/impress.js"></script>
-<script>impress().init();</script>
+<script>
+    document.addEventListener("keypress", function(event) {
+        if (event.keyCode == 120 /* x */) {
+            var blackOut = document.getElementsByClassName("blackOut")[0];
+            if (blackOut.style.display == "block") {
+                blackOut.style.display = "none";
+            } else {
+                blackOut.style.display = "block";
+            }
+        }
+        return true;
+    });
+
+    impress().init();
+</script>
 
 </body>
 </html>
